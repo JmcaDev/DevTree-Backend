@@ -3,14 +3,25 @@
   "version": "1.0.0",
   "description": "Backend for the DevTree Project",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc",
+    "dev": "tsx watch src/index.ts",
+    "start": "node dist/index.js"
   },
   "keywords": [
     "NodeJS",
     "TypeScript",
     "Express"
   ],
-  "author": "Jose Castillo",
-  "license": "ISC"
+  "author": "Jose Castillo @JmcaDev",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "tsx": "^4.23.1",
+    "typescript": "^7.0.2"
+  }
 }
