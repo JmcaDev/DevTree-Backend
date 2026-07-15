@@ -1,10 +1,10 @@
-import { Router, Request, Response  } from 'express'
+import { Router } from 'express'
+
+import { createAccount } from './handlers/index.js'
 
 const router = Router()
 
 /** Auth & Register */
-router.post('/auth/register', (req: Request, res: Response) => {
-  console.log(req.body)
-})
+router.post('/auth/register', createAccount)
 
 export default router
