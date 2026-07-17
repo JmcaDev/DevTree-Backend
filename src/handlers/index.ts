@@ -4,6 +4,7 @@ import slug from 'slug'
 import colors from 'colors'
 import User from '../models/User.js'
 import { checkPassword, hashPassword } from '../utils/auth.js'
+import { generateJWT } from '../utils/jwt.js'
 
 export const createAccount = async (req: Request, res: Response) => {
   
@@ -12,7 +13,7 @@ export const createAccount = async (req: Request, res: Response) => {
 
   const userExists = await User.findOne({email})
   if(userExists){
-    const error = new Error('El correo ya fue usado')
+    const error = new Error('Un usuario con ese correo ya esta registrado')
     return res.status(409).json({error: error.message})
   }
 
@@ -54,11 +55,12 @@ export const loginAccount = async (req: Request, res: Response) => {
 
   //Comprobar la contraseña
   const isPasswordCorrect = await checkPassword(password, user.password)
-
   if(!isPasswordCorrect){
     const error = new Error('Contraseña incorrecta')
     return res.status(401).json({error: error.message})
   }
 
-  res.status(200).json({mensaje: 'Autenticado'})
+  const token = generateJWT({id: user._id})
+
+  res.status(200).json({mensaje: token})
 }
