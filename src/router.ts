@@ -1,7 +1,8 @@
 import { Router } from 'express'
 import { body } from 'express-validator'
-import { createAccount, loginAccount } from './handlers/index.js'
+import { createAccount, getUser, loginAccount, updateProfile } from './handlers/index.js'
 import { handleInputErrors } from './middleware/validation.js'
+import { authenticate } from './middleware/auth.js'
 
 const router = Router()
 
@@ -20,6 +21,15 @@ router.post('/auth/login',
   body('password').notEmpty().withMessage('La contraseña es obligatoria'),
   handleInputErrors,
   loginAccount
+)
+
+router.get('/user', authenticate, getUser)
+router.patch('/user',
+  body('handle').notEmpty().withMessage('El handle no puede ir vacio'),
+  body('description').notEmpty().withMessage('La descripción no puede ir vacia'),
+  handleInputErrors,
+  authenticate, 
+  updateProfile
 )
 
 export default router
